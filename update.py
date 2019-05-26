@@ -20,7 +20,7 @@ if __name__=="__main__":
 
     firebase = pyrebase.initialize_app(config)
     db = firebase.database()
-    scheduler = ReminderScheduler(user='nkhachan')
+    scheduler = ReminderScheduler(user='pi')
 
     fb_tasks = db.get()
     for task in fb_tasks.each():
