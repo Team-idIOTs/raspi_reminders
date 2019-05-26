@@ -1,7 +1,7 @@
 import pyrebase
 import sys, os
 import json
-sys.path.append(os.getcwd() + "/../dp_lib/")
+sys.path.append(os.getcwd() + "/../reminders_lib/")
 sys.path.append(os.getcwd() + "/../")
 from config import *
 from ReminderScheduler import *
