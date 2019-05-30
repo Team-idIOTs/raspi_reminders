@@ -25,6 +25,7 @@ if __name__=="__main__":
     fb_tasks = db.get()
     for task in fb_tasks.each():
         if (task.val()['updated'] == True):
+            # Add to current list
             tasks[task.key()] = task.val()
             task_obj = Task.from_dict(task.val())
             scheduler.schedule_task(task_obj)
