@@ -28,8 +28,7 @@ if __name__=="__main__":
         if (task.val()['updated'] == True):
             # Add to current list
             tasks[task.key()] = task.val()
-
-            tts = gTTS(tts_str)
+            tts = gTTS(db.child(task.key().child("audio")))
             tts.save(task.key().replace(" ", "") + ".mp3")
             task_obj = Task.from_dict(task.val())
             scheduler.schedule_task(task_obj)
