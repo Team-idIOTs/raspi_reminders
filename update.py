@@ -28,7 +28,10 @@ if __name__=="__main__":
             tasks[task.key()] = task.val()
             task_obj = Task.from_dict(task.val())
             scheduler.schedule_task(task_obj)
-            #db.child(task.key()).update({"updated": False})
+            db.child(task.key()).update({"updated": False})
+            for reminder in db.child(task.key()).child('reminders').get().each():
+                if (task.val()['updated'] == True):
+                    db.child(task.key()).child("reminders").child(reminder.key()).update({"updated":False})
 
     with open(json_path, 'w') as outfile:
         json.dump(tasks, outfile)
