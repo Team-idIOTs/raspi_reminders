@@ -1,6 +1,7 @@
 import pyrebase
 import sys, os
 import json
+from gtts import gTTS
 sys.path.append(os.getcwd() + "/../reminders_lib/")
 sys.path.append(os.getcwd() + "/../")
 from config import *
@@ -27,6 +28,9 @@ if __name__=="__main__":
         if (task.val()['updated'] == True):
             # Add to current list
             tasks[task.key()] = task.val()
+
+            tts = gTTS(tts_str)
+            tts.save(task.key().replace(" ", "") + ".mp3")
             task_obj = Task.from_dict(task.val())
             scheduler.schedule_task(task_obj)
             db.child(task.key()).update({"updated": False})
