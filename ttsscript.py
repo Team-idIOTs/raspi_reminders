@@ -1,4 +1,6 @@
-import sys
-import subprocess
+import vlc
+import time
 
-subprocess.call(['omxplayer', sys.argv[1] + ".mp3"])
+player = vlc.MediaPlayer(sys.argv[1] + ".mp3")
+player.play()
+time.sleep(1)
