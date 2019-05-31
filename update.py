@@ -1,7 +1,6 @@
 import pyrebase
 import sys, os
 import json
-from gtts import gTTS
 sys.path.append(os.getcwd() + "/../reminders_lib/")
 sys.path.append(os.getcwd() + "/../")
 from config import *
@@ -22,20 +21,29 @@ if __name__=="__main__":
 
     firebase = pyrebase.initialize_app(config)
     db = firebase.database()
+    storage = firebase.storage()
     scheduler = ReminderScheduler(user='pi')
 
     fb_tasks = db.get()
-    print(time.time())
     for task in fb_tasks.each():
         if (task.val()['updated'] == True):
+
             # Add to current list
             tasks[task.key()] = task.val()
-            tts = gTTS(task.val()['audio'])
-            print(time.time())
-            tts.save(task.val()['name'].replace(" ", "") + ".mp3")
+
+            # Create the object
             task_obj = Task.from_dict(task.val())
+
+            # Download the audio file
+            storage.child(task_obj.get_audio_name()).download(task_obj.get_audio_name())
+
+            # Schedule the cron tasks
             scheduler.schedule_task(task_obj)
+
+            # Revert task's update status
             db.child(task.key()).update({"updated": False})
+
+            # Revert reminder's update status
             for reminder in db.child(task.key()).child('reminders').get().each():
                 if (task.val()['updated'] == True):
                     db.child(task.key()).child("reminders").child(reminder.key()).update({"updated":False})
