@@ -1,4 +1,4 @@
 import sys
 import subprocess
 
-subprocess.call(['omxplayer', task_name + ".mp3"])
+subprocess.call(['omxplayer', sys.argv[1] + ".mp3"])
