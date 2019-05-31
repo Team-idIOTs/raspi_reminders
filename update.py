@@ -36,6 +36,7 @@ if __name__=="__main__":
 
             # Download the audio file
             storage.child(task_obj.get_audio_name()).download(task_obj.get_audio_name())
+            os.system("mv " + task_obj.get_audio_name() + " /home/pi/sounds/")
 
             # Schedule the cron tasks
             scheduler.schedule_task(task_obj)
